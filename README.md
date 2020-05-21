@@ -43,13 +43,13 @@ Now that you've got the code, follow these steps to get acclimated:
 * Update project name and description in `package.json` and
   `.travis.yml` files
 * `npm install`
-* Create two postgres databases (`MY_APP_NAME` should match the `name`
+* Create two postgres databases (`FoodDesert` should match the `name`
   parameter in `package.json`):
 
 ```
-export MY_APP_NAME=boilermaker
-createdb $MY_APP_NAME
-createdb $MY_APP_NAME-test
+export FoodDesert=boilermaker
+createdb $FoodDesert
+createdb $FoodDesert-test
 ```
 
 * By default, running `npm test` will use `boilermaker-test`, while
