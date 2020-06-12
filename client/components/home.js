@@ -22,33 +22,3 @@ export default function Home() {
     </div>
   )
 }
-
-// export const Home = props => {
-//   const {grocers} = props
-//   console.log("props:", props)
-
-//   componentDidMount(){
-//     this.props.gotGrocers()
-//   }
-
-//   return (
-//     <div>
-//       {!grocers ? <div>Grocers need to load</div> : <div>{grocers}</div>}
-//     </div>
-//   )
-// }
-
-/**
- * CONTAINER
- */
-// const mapState = state => {
-//   return {
-//     grocers: state.grocers
-//   }
-// }
-
-// const mapDispatch = dispatch => ({
-//   gotGrocers: () => dispatch(gotGrocers())
-// })
-
-//export default connect(mapState, mapDispatch)(Home)
