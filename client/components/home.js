@@ -1,18 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react'
-import {shallowEqual, useSelector, useDispatch} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import mapboxgl from 'mapbox-gl'
-// import "../../node_modules/mapbox-gl/dist/mapbox-gl.css"
 import {gotGrocers} from '../store/grocers'
-
-/**
- * STYLES
- */
-
-const styles = {
-  width: '100vw',
-  height: 'calc(100vh - 80px)',
-  position: 'absolute'
-}
+import mapStyles from '../styles/mapStyles'
 
 /**
  * COMPONENT
@@ -22,6 +12,7 @@ export default function Home() {
   const grocers = useSelector(state => state.grocers)
   const dispatch = useDispatch()
   const [map, setMap] = useState(null)
+  const [coordinates, setCoordinates] = useState([-73.886111, 40.837222])
   const mapContainer = useRef(null)
 
   useEffect(() => {
@@ -36,7 +27,7 @@ export default function Home() {
         const map = new mapboxgl.Map({
           container: mapContainer.current,
           style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
-          center: [-73.886111, 40.837222],
+          center: coordinates,
           zoom: 12
         })
 
@@ -51,5 +42,5 @@ export default function Home() {
     [map]
   )
 
-  return <div ref={el => (mapContainer.current = el)} style={styles} />
+  return <div ref={el => (mapContainer.current = el)} style={mapStyles} />
 }
