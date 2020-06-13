@@ -13,6 +13,7 @@ export default function Home() {
   const dispatch = useDispatch()
   const [map, setMap] = useState(null)
   const [coordinates, setCoordinates] = useState([-73.886111, 40.837222])
+  const [zoomLevel, setZoomLevel] = useState(12)
   const mapContainer = useRef(null)
 
   useEffect(() => {
@@ -28,12 +29,20 @@ export default function Home() {
           container: mapContainer.current,
           style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
           center: coordinates,
-          zoom: 12
+          zoom: zoomLevel
         })
 
         map.on('load', () => {
           setMap(map)
           map.resize()
+        })
+
+        map.on('move', () => {
+          setCoordinates([
+            map.getCenter().lng.toFixed(4),
+            map.getCenter().lat.toFixed(4)
+          ])
+          setZoomLevel(map.getZoom().toFixed(2))
         })
       }
 
@@ -42,5 +51,15 @@ export default function Home() {
     [map]
   )
 
-  return <div ref={el => (mapContainer.current = el)} style={mapStyles} />
+  return (
+    <div>
+      <div>
+        <div>
+          Longitude: {coordinates[0]} | Latitude: {coordinates[1]} | Zoom Level:{' '}
+          {zoomLevel}
+        </div>
+      </div>
+      <div ref={el => (mapContainer.current = el)} style={mapStyles} />
+    </div>
+  )
 }
