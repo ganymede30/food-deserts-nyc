@@ -2,6 +2,10 @@
   "name": "FoodDesert",
   "version": "2.0.0",
   "description": "Application using the MapBox API to generate isochrones in NYC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ganymede30/FoodDesert"
+  },
   "engines": {
     "node": "~12.11.1"
   },
@@ -92,8 +96,8 @@
     "git-url-parse": "^11.1.2",
     "husky": "^1.3.1",
     "lint-staged": "^8.1.5",
-    "mocha": "^6.1.4",
-    "nodemon": "^1.18.3",
+    "mocha": "^8.0.1",
+    "nodemon": "^2.0.4",
     "npm-merge-driver": "^2.3.6",
     "prettier": "1.11.1",
     "react-test-renderer": "^16.4.2",

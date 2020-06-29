@@ -17,7 +17,7 @@ export default function Home() {
   const mapContainer = useRef(null)
 
   useEffect(() => {
-    dispatch(gotGrocers())
+    dispatch(gotGrocers()).then()
   }, [])
 
   useEffect(
@@ -32,9 +32,40 @@ export default function Home() {
           zoom: zoomLevel
         })
 
+        console.log('mapbox rendering')
+        console.log('grocers', grocers)
+
         map.on('load', () => {
           setMap(map)
           map.resize()
+        })
+
+        map.on('load', () => {
+          map.addSource('ny-grocers', {
+            type: 'geojson',
+            data: {
+              type: 'FeatureCollection',
+              features: [
+                {
+                  type: 'Feature',
+                  geometry: {
+                    type: 'Point',
+                    coordinates: [-73.886111, 40.837222]
+                  }
+                }
+              ]
+            }
+          })
+          map.addLayer({
+            id: 'park-volcanoes',
+            type: 'circle',
+            source: 'ny-grocers',
+            paint: {
+              'circle-radius': 6,
+              'circle-color': '#B42222'
+            },
+            filter: ['==', '$type', 'Point']
+          })
         })
 
         map.on('move', () => {

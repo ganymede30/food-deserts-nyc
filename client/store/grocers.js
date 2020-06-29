@@ -24,6 +24,7 @@ export const gotGrocers = () => async (dispatch, next) => {
     console.log('working')
     dispatch(getGrocers(data))
   } catch (error) {
+    console.log(error.message)
     next(error)
   }
 }
@@ -31,7 +32,7 @@ export const gotGrocers = () => async (dispatch, next) => {
 /**
  * REDUCER
  */
-export default function(state = [], action) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case GET_GROCERS:
       return action.grocers
