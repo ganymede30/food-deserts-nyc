@@ -8,7 +8,7 @@ import mapStyles from '../styles/mapStyles'
  * COMPONENT
  */
 
-export default function Home() {
+const Home = () => {
   const grocers = useSelector(state => state.grocers)
   const dispatch = useDispatch()
   const [map, setMap] = useState(null)
@@ -17,7 +17,7 @@ export default function Home() {
   const mapContainer = useRef(null)
 
   useEffect(() => {
-    dispatch(gotGrocers()).then()
+    dispatch(gotGrocers())
   }, [])
 
   useEffect(
@@ -33,7 +33,7 @@ export default function Home() {
         })
 
         console.log('mapbox rendering')
-        console.log('grocers', grocers)
+        console.log('grocers 1', grocers)
 
         map.on('load', () => {
           setMap(map)
@@ -41,25 +41,19 @@ export default function Home() {
         })
 
         map.on('load', () => {
-          map.addSource('ny-grocers', {
+          console.log('grocers 2', grocers)
+
+          map.addSource('bronx-grocers', {
             type: 'geojson',
             data: {
               type: 'FeatureCollection',
-              features: [
-                {
-                  type: 'Feature',
-                  geometry: {
-                    type: 'Point',
-                    coordinates: [-73.886111, 40.837222]
-                  }
-                }
-              ]
+              features: grocers
             }
           })
           map.addLayer({
             id: 'park-volcanoes',
             type: 'circle',
-            source: 'ny-grocers',
+            source: 'bronx-grocers',
             paint: {
               'circle-radius': 6,
               'circle-color': '#B42222'
@@ -94,3 +88,5 @@ export default function Home() {
     </div>
   )
 }
+
+export default Home

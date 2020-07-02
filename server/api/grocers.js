@@ -12,9 +12,7 @@ router.get('/', async (req, res, next) => {
       state: point.state,
       dba_name: point.dba_name,
       zip_code: point.zip_code,
-      address: point.location.human_address,
-      latitude: point.location.latitude,
-      longitude: point.location.longitude
+      location: point.location
     }))
     res.json(grocers)
   } catch (error) {
