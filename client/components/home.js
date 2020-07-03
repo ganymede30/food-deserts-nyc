@@ -1,8 +1,8 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState, useEffect, useRef, useCallback} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import mapboxgl from 'mapbox-gl'
 import {gotGrocers} from '../store/grocers'
-import mapStyles from '../styles/mapStyles'
+import {mapStyles, pointStyles} from '../styles/mapStyles'
 
 /**
  * COMPONENT
@@ -11,6 +11,10 @@ import mapStyles from '../styles/mapStyles'
 const Home = () => {
   const grocers = useSelector(state => state.grocers)
   const dispatch = useDispatch()
+  // const setGrocers = useCallback(
+  //   () => dispatch(gotGrocers()), [dispatch]
+  //   )
+  const [grocersGeoJSON, setGrocersGeoJSON] = useState(grocers)
   const [map, setMap] = useState(null)
   const [coordinates, setCoordinates] = useState([-73.886111, 40.837222])
   const [zoomLevel, setZoomLevel] = useState(12)
@@ -25,6 +29,9 @@ const Home = () => {
       mapboxgl.accessToken =
         'pk.eyJ1IjoiZ2FueW1lZGUzMCIsImEiOiJjazV3b20zMWsxeDRnM3Jtam1iaTQ1N2kzIn0.oOGhQyN93k3NzPoEC56iIw'
       const initializeMap = ({setMap, mapContainer}) => {
+        console.log('initialize map going off')
+        console.log('initialize map grocersGeoJSON', grocersGeoJSON)
+
         const map = new mapboxgl.Map({
           container: mapContainer.current,
           style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
@@ -32,8 +39,7 @@ const Home = () => {
           zoom: zoomLevel
         })
 
-        console.log('mapbox rendering')
-        console.log('grocers 1', grocers)
+        map.addControl(new mapboxgl.NavigationControl(), 'bottom-right')
 
         map.on('load', () => {
           setMap(map)
@@ -41,25 +47,13 @@ const Home = () => {
         })
 
         map.on('load', () => {
-          console.log('grocers 2', grocers)
-
+          console.log('coordinates', coordinates)
+          console.log("map.on('load') grocersGeoJSON", grocersGeoJSON)
           map.addSource('bronx-grocers', {
             type: 'geojson',
-            data: {
-              type: 'FeatureCollection',
-              features: grocers
-            }
+            data: grocersGeoJSON
           })
-          map.addLayer({
-            id: 'park-volcanoes',
-            type: 'circle',
-            source: 'bronx-grocers',
-            paint: {
-              'circle-radius': 6,
-              'circle-color': '#B42222'
-            },
-            filter: ['==', '$type', 'Point']
-          })
+          map.addLayer(pointStyles)
         })
 
         map.on('move', () => {
