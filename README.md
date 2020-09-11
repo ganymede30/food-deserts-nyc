@@ -213,15 +213,3 @@ production server to be cluttered up with dev dependencies like
 git-tracking to be cluttered with production build files like
 `bundle.js`! By doing these steps, we make sure our development and
 production environments both stay nice and clean!
-
-Why did you choose a career in software engineering?
-
-I transitioned into a career in software engineering after spending a couple years working with geospatial technologies. Formerly I was a GIS Analyst at Apple Maps and working there I became very interested in their internal mapping software. I was so used to using other people's applications, I wanted to learn how to build my own applications so I started teaching myself JavaScript. It's been very rewarding learning how applications operate 'under the hood'.
-
-What is something you're excited to bring or you think you uniquely bring to your software engineering career?
-
-I am a trained geographer and I have industry experience working with geospatial technologies. Specifically I have a passion for transportation netowrks and urban planning. Since undergrad I have always been fascinated with how people move around and how that affects local geographies. Mobility is a democratizing force and a company such as Lyft gives people access to areas that would have once been inaccessible. As for my geographic training I think that provides a unique perspective to software engineering. A key tenet of geographic thought is that all things are interrelated and nothing exists in a vaccuum. When I'm coding this allows me to view issues holistically. I can see how all the parts of the front-end and back-end are interrelated as well as how the client might experience the app.
-
-Share a story of something technical you learnt recently, and how you applied it to your job/personal-project -or- share a story of your favorite bug that you wrote and fixed.
-
-I'm very confident using React Classes but I wanted to grow out my skills so I recently taught myself how to use React Hooks. Since undergrad I've been interested in issues of urban inequality so I decided to build an application mapping food deserts in New York City. React Hooks were a little tricky to start with but once I got the hang of them I found them super intuitive. Being able to modularize my code made it very easy to map food insecurity across the five boroughs without having to replicate much code.
