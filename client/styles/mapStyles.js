@@ -38,3 +38,9 @@ export const isochroneStyles = {
     'fill-opacity': 0.3
   }
 }
+
+export const geolocateStyle = {
+  float: 'left',
+  margin: '50px',
+  padding: '10px'
+}
