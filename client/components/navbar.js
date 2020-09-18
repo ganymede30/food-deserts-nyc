@@ -13,35 +13,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
       adjust your travel distance using the slider below and you can adjust how
       you are traveling by clicking the buttons below. Enjoy!
     </p>
-    {/* <hr /> */}
   </div>
 )
 
 export default Navbar
-
-/**
- * CONTAINER
- */
-// const mapState = state => {
-//   return {
-//     isLoggedIn: !!state.user.id
-//   }
-// }
-
-// const mapDispatch = dispatch => {
-//   return {
-//     handleClick() {
-//       dispatch(logout())
-//     }
-//   }
-// }
-
-// export default connect(mapState, mapDispatch)(Navbar)
-
-// /**
-//  * PROP TYPES
-//  */
-// Navbar.propTypes = {
-//   handleClick: PropTypes.func.isRequired,
-//   isLoggedIn: PropTypes.bool.isRequired
-// }
