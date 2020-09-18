@@ -6,7 +6,6 @@ import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div className="navBar">
-    <br />
     <h1>New York City Food Availability</h1>
     <p>
       The green points on the map represent grocery stores and the opaque
