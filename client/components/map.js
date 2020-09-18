@@ -25,8 +25,6 @@ const Map = () => {
   })
 
   const [grocers, setGrocers] = useState(null)
-  const [isLoaded, setIsLoaded] = useState(true)
-  const [items, setItems] = useState(null)
   const [profile, setProfile] = useState('walking')
   const [minutes, setMinutes] = useState(10)
   const [buroughs, setBuroughs] = useState([
@@ -37,13 +35,12 @@ const Map = () => {
     'StatenIsland'
   ])
 
-  const _onViewportChange = viewport => {
-    setViewport({...viewport})
+  const _handleTimeChange = event => {
+    setMinutes(event.target.value)
   }
 
-  const _handleTimeChange = event => {
-    console.log(event.target.value)
-    setMinutes(event.target.value)
+  const _onViewportChange = viewport => {
+    setViewport({...viewport})
   }
 
   useEffect(() => {
@@ -62,13 +59,11 @@ const Map = () => {
   }, [])
 
   return (
-    <div style={{margin: '0 auto'}}>
-      {/* <h1> Longitude: {grocers.type}</h1> */}
+    <div>
       <div className="sidebar">
-        <h4>
-          Maximum Travel Time: {minutes} mins. {profile}{' '}
-        </h4>
-        <label>{minutes} mins. </label>
+        <label>
+          Maximum Travel Time: {minutes} minutes {profile}{' '}
+        </label>
         <input
           name="time"
           type="range"
@@ -78,8 +73,6 @@ const Map = () => {
           onChange={_handleTimeChange}
           step="1"
         />
-      </div>
-      <div>
         <button onClick={() => setProfile('walking')}>Walking</button>
         <button onClick={() => setProfile('cycling')}>Cycling</button>
         <button onClick={() => setProfile('driving')}>Driving</button>
@@ -94,7 +87,6 @@ const Map = () => {
         <Source id="ny-grocers" type="geojson" data={grocers}>
           <Layer {...pointStyles} />
         </Source>
-
         <Source
           id="iso"
           type="geojson"
@@ -113,12 +105,6 @@ const Map = () => {
         >
           <Layer {...isochroneStyles} />
         </Source>
-
-        {/* <GeolocateControl
-          style={geolocateStyle}
-          positionOptions={{enableHighAccuracy: true}}
-          trackUserLocation={true}
-        /> */}
       </MapGL>
     </div>
   )
