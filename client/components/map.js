@@ -41,6 +41,11 @@ const Map = () => {
     setViewport({...viewport})
   }
 
+  const _handleTimeChange = event => {
+    console.log(event.target.value)
+    setMinutes(event.target.value)
+  }
+
   useEffect(() => {
     async function grabData() {
       let geojson = {
@@ -59,6 +64,26 @@ const Map = () => {
   return (
     <div style={{margin: '0 auto'}}>
       {/* <h1> Longitude: {grocers.type}</h1> */}
+      <div className="sidebar">
+        <h4>
+          Maximum Travel Time: {minutes} mins. {profile}{' '}
+        </h4>
+        <label>{minutes} mins. </label>
+        <input
+          name="time"
+          type="range"
+          min={5}
+          max={60}
+          defaultValue={10}
+          onChange={_handleTimeChange}
+          step="1"
+        />
+      </div>
+      <div>
+        <button onClick={() => setProfile('walking')}>Walking</button>
+        <button onClick={() => setProfile('cycling')}>Cycling</button>
+        <button onClick={() => setProfile('driving')}>Driving</button>
+      </div>
       <MapGL
         {...viewport}
         mapboxApiAccessToken={accessToken}
@@ -89,11 +114,11 @@ const Map = () => {
           <Layer {...isochroneStyles} />
         </Source>
 
-        <GeolocateControl
+        {/* <GeolocateControl
           style={geolocateStyle}
           positionOptions={{enableHighAccuracy: true}}
           trackUserLocation={true}
-        />
+        /> */}
       </MapGL>
     </div>
   )
