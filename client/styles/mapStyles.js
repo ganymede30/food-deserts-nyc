@@ -20,7 +20,7 @@ export const sidebarStyle = {
 export const pointStyles = {
   id: 'grocers',
   type: 'circle',
-  source: 'bronx-grocers',
+  source: 'ny-grocers',
   paint: {
     'circle-radius': 3,
     'circle-color': 'green'

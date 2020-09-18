@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import MapGL, {Source, Layer, GeolocateControl} from 'react-map-gl'
-import {useSelector, useDispatch} from 'react-redux'
-import {gotGrocers} from '../store/grocers'
 import {
   mapStyles,
   pointStyles,
@@ -31,6 +29,13 @@ const Map = () => {
   const [items, setItems] = useState(null)
   const [profile, setProfile] = useState('walking')
   const [minutes, setMinutes] = useState(10)
+  const [buroughs, setBuroughs] = useState([
+    'Bronx',
+    'Brooklyn',
+    'Manhattan',
+    'Queens',
+    'StatenIsland'
+  ])
 
   const _onViewportChange = viewport => {
     setViewport({...viewport})
@@ -38,8 +43,15 @@ const Map = () => {
 
   useEffect(() => {
     async function grabData() {
-      const fetcher = await axios.get('/api/grocers')
-      setGrocers(fetcher.data)
+      let geojson = {
+        type: 'FeatureCollection',
+        features: []
+      }
+      for (let i = 0; i < buroughs.length; i++) {
+        let fetcher = await axios.get(`/api/grocers/${buroughs[i]}`)
+        geojson.features.push(...fetcher.data.features)
+      }
+      setGrocers(geojson)
     }
     grabData()
   }, [])
@@ -54,7 +66,7 @@ const Map = () => {
         style={mapStyles}
         onViewportChange={_onViewportChange}
       >
-        <Source id="BronxGrocers" type="geojson" data={grocers}>
+        <Source id="ny-grocers" type="geojson" data={grocers}>
           <Layer {...pointStyles} />
         </Source>
 
