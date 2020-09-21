@@ -9,9 +9,10 @@ const Navbar = ({handleClick, isLoggedIn}) => (
     <h1>New York City Food Availability</h1>
     <p>
       The green points on the map represent grocery stores and the opaque
-      polygon represents the travel distance from the center of the map. You can
-      adjust your travel distance using the slider below and you can adjust how
-      you are traveling by clicking the buttons below. Enjoy!
+      polygon is an isochrone representing the travel distance from the center
+      of the polygon. You can click anywhere on the map to recenter the polygon.
+      The slider below adjusts your travel time and the buttons adjust your form
+      of transportation. Enjoy!
     </p>
   </div>
 )
