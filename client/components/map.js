@@ -23,7 +23,10 @@ const Map = () => {
     longitude: -73.886111,
     zoom: 12
   })
-
+  const [isochroneCoordinates, setIsochroneCoordinates] = useState({
+    latitude: viewport.latitude,
+    longitude: viewport.longitude
+  })
   const [grocers, setGrocers] = useState(null)
   const [profile, setProfile] = useState('walking')
   const [minutes, setMinutes] = useState(10)
@@ -41,6 +44,13 @@ const Map = () => {
 
   const _onViewportChange = viewport => {
     setViewport({...viewport})
+  }
+
+  const _onIsochroneClick = event => {
+    setIsochroneCoordinates({
+      latitude: event.lngLat[1],
+      longitude: event.lngLat[0]
+    })
   }
 
   useEffect(() => {
@@ -81,8 +91,8 @@ const Map = () => {
         {...viewport}
         mapboxApiAccessToken={accessToken}
         mapStyle="mapbox://styles/mapbox/streets-v11"
-        style={mapStyles}
         onViewportChange={_onViewportChange}
+        onClick={_onIsochroneClick}
       >
         <Source id="ny-grocers" type="geojson" data={grocers}>
           <Layer {...pointStyles} />
@@ -94,9 +104,9 @@ const Map = () => {
             urlBase +
             profile +
             '/' +
-            viewport.longitude +
+            isochroneCoordinates.longitude +
             ',' +
-            viewport.latitude +
+            isochroneCoordinates.latitude +
             '?contours_minutes=' +
             minutes +
             '&polygons=true&access_token=' +
@@ -105,6 +115,11 @@ const Map = () => {
         >
           <Layer {...isochroneStyles} />
         </Source>
+        <GeolocateControl
+          style={geolocateStyle}
+          positionOptions={{enableHighAccuracy: true}}
+          trackUserLocation={true}
+        />
       </MapGL>
     </div>
   )

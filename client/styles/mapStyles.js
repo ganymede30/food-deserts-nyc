@@ -40,7 +40,7 @@ export const isochroneStyles = {
 }
 
 export const geolocateStyle = {
-  float: 'left',
+  float: 'right',
   margin: '50px',
   padding: '10px'
 }
