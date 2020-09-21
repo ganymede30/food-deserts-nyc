@@ -44,3 +44,26 @@ export const geolocateStyle = {
   margin: '50px',
   padding: '10px'
 }
+
+export const fullscreenControlStyle = {
+  position: 'absolute',
+  top: 36,
+  left: 0,
+  padding: '10px'
+}
+
+export const navStyle = {
+  // position: 'bottom-right',
+  float: 'left',
+  margin: '20px',
+  padding: '10px'
+}
+
+export const scaleControlStyle = {
+  // position: 'absolute',
+  // bottom: 0,
+  // left: 0,
+  float: 'left',
+  margin: '20px',
+  padding: '10px'
+}

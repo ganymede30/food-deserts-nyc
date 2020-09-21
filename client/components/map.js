@@ -1,11 +1,18 @@
-import React, {useState, useEffect} from 'react'
-import MapGL, {Source, Layer, GeolocateControl} from 'react-map-gl'
+import React, {useState, useEffect, useRef, useCallback} from 'react'
+import MapGL, {
+  Source,
+  Layer,
+  GeolocateControl,
+  NavigationControl
+} from 'react-map-gl'
+import Geocoder from 'react-map-gl-geocoder'
 import {
   mapStyles,
   pointStyles,
   sidebarStyle,
   isochroneStyles,
-  geolocateStyle
+  geolocateStyle,
+  navStyle
 } from '../styles/mapStyles'
 import axios from 'axios'
 
@@ -21,8 +28,10 @@ const Map = () => {
     position: 'absolute',
     latitude: 40.837222,
     longitude: -73.886111,
-    zoom: 12
+    zoom: 12,
+    minZoom: 2
   })
+  const [searchResultLayer, setSearchResultLayer] = useState(null)
   const [isochroneCoordinates, setIsochroneCoordinates] = useState({
     latitude: viewport.latitude,
     longitude: viewport.longitude
@@ -38,6 +47,8 @@ const Map = () => {
     'StatenIsland'
   ])
 
+  const mapRef = useRef()
+
   const _handleTimeChange = event => {
     setMinutes(event.target.value)
   }
@@ -45,6 +56,21 @@ const Map = () => {
   const _onViewportChange = viewport => {
     setViewport({...viewport})
   }
+
+  const handleViewportChange = useCallback(
+    newViewport => setViewport(newViewport),
+    []
+  )
+
+  // if you are happy with Geocoder default settings, you can just use handleViewportChange directly
+  const handleGeocoderViewportChange = useCallback(newViewport => {
+    const geocoderDefaultOverrides = {transitionDuration: 1000}
+    console.log(newViewport)
+    return handleViewportChange({
+      ...newViewport,
+      ...geocoderDefaultOverrides
+    })
+  }, [])
 
   const _onIsochroneClick = event => {
     setIsochroneCoordinates({
@@ -88,12 +114,19 @@ const Map = () => {
         <button onClick={() => setProfile('driving')}>Driving</button>
       </div>
       <MapGL
+        ref={mapRef}
         {...viewport}
         mapboxApiAccessToken={accessToken}
         mapStyle="mapbox://styles/mapbox/streets-v11"
         onViewportChange={_onViewportChange}
         onClick={_onIsochroneClick}
       >
+        {/* <Geocoder
+          mapRef={mapRef}
+          onViewportChange={handleGeocoderViewportChange}
+          mapboxApiAccessToken={accessToken}
+          position="top-right"
+        /> */}
         <Source id="ny-grocers" type="geojson" data={grocers}>
           <Layer {...pointStyles} />
         </Source>
@@ -120,6 +153,9 @@ const Map = () => {
           positionOptions={{enableHighAccuracy: true}}
           trackUserLocation={true}
         />
+        <div style={navStyle}>
+          <NavigationControl />
+        </div>
       </MapGL>
     </div>
   )
