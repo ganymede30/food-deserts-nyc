@@ -46,6 +46,18 @@ const Map = () => {
     'Queens',
     'StatenIsland'
   ])
+  const [isoData, setIsoData] = useState(
+    urlBase +
+      profile +
+      '/' +
+      isochroneCoordinates.longitude +
+      ',' +
+      isochroneCoordinates.latitude +
+      '?contours_minutes=' +
+      minutes +
+      '&polygons=true&access_token=' +
+      accessToken
+  )
 
   const mapRef = useRef()
 
@@ -90,6 +102,8 @@ const Map = () => {
         geojson.features.push(...fetcher.data.features)
       }
       setGrocers(geojson)
+      let isoFetch = await axios.get(isoData)
+      console.log(isoFetch)
     }
     grabData()
   }, [])
@@ -130,22 +144,7 @@ const Map = () => {
         <Source id="ny-grocers" type="geojson" data={grocers}>
           <Layer {...pointStyles} />
         </Source>
-        <Source
-          id="iso"
-          type="geojson"
-          data={
-            urlBase +
-            profile +
-            '/' +
-            isochroneCoordinates.longitude +
-            ',' +
-            isochroneCoordinates.latitude +
-            '?contours_minutes=' +
-            minutes +
-            '&polygons=true&access_token=' +
-            accessToken
-          }
-        >
+        <Source id="iso" type="geojson" data={isoData}>
           <Layer {...isochroneStyles} />
         </Source>
         <GeolocateControl
