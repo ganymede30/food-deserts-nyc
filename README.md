@@ -17,7 +17,11 @@ This application was constructed using the follow tech stack:
 
 A fresh isochrone is created upon click
 
-[IsochroneClick](public/IsochroneClick.gif)
+![](public/IsochroneClick.gif)
+
+You can adjust how far you want to travel as well as if you'd be walking, cycling, or driving with
+
+![](public/IsochroneSlider.gif)
 
 ## Local Setup
 
