@@ -89,9 +89,11 @@ const Map = () => {
       latitude: event.lngLat[1],
       longitude: event.lngLat[0]
     })
+    console.log(isochroneCoordinates)
   }
 
   useEffect(() => {
+    console.log('mapRef:', mapRef)
     async function grabData() {
       let geojson = {
         type: 'FeatureCollection',
@@ -102,11 +104,13 @@ const Map = () => {
         geojson.features.push(...fetcher.data.features)
       }
       setGrocers(geojson)
-      let isoFetch = await axios.get(isoData)
-      console.log(isoFetch)
+      // console.log("isoData", isoData)
+      // let isoFetch = await axios.get(isoData)
     }
     grabData()
   }, [])
+
+  useEffect(() => {})
 
   return (
     <div>
@@ -144,7 +148,22 @@ const Map = () => {
         <Source id="ny-grocers" type="geojson" data={grocers}>
           <Layer {...pointStyles} />
         </Source>
-        <Source id="iso" type="geojson" data={isoData}>
+        <Source
+          id="iso"
+          type="geojson"
+          data={
+            urlBase +
+            profile +
+            '/' +
+            isochroneCoordinates.longitude +
+            ',' +
+            isochroneCoordinates.latitude +
+            '?contours_minutes=' +
+            minutes +
+            '&polygons=true&access_token=' +
+            accessToken
+          }
+        >
           <Layer {...isochroneStyles} />
         </Source>
         <GeolocateControl
