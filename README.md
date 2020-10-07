@@ -15,7 +15,9 @@ This application was constructed using the follow tech stack:
 
 ## Features
 
-Interactable Isochrone
+A fresh isochrone is created upon click
+
+[IsochroneClick](public/IsochroneClick.gif)
 
 ## Local Setup
 
