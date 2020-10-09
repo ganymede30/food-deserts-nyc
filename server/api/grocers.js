@@ -28,7 +28,12 @@ router.get('/', async (req, res, next) => {
           properties: {
             id: index + 1,
             name: grocer.dba_name,
-            county: grocer.county
+            address: grocer.location.human_address,
+            street_number: grocer.street_number,
+            street_name: grocer.street_name,
+            city: grocer.city,
+            county: grocer.county,
+            state: grocer.state
           }
         }))
     }
@@ -62,7 +67,13 @@ router.get('/Bronx', async (req, res, next) => {
           },
           properties: {
             id: index + 1,
-            name: grocer.dba_name
+            name: grocer.dba_name,
+            address: grocer.location.human_address,
+            street_number: grocer.street_number,
+            street_name: grocer.street_name,
+            city: grocer.city,
+            county: grocer.county,
+            state: grocer.state
           }
         }))
     }
@@ -96,7 +107,13 @@ router.get('/Brooklyn', async (req, res, next) => {
           },
           properties: {
             id: index + 1,
-            name: grocer.dba_name
+            name: grocer.dba_name,
+            address: grocer.location.human_address,
+            street_number: grocer.street_number,
+            street_name: grocer.street_name,
+            city: grocer.city,
+            county: grocer.county,
+            state: grocer.state
           }
         }))
     }
@@ -131,7 +148,13 @@ router.get('/Manhattan', async (req, res, next) => {
           },
           properties: {
             id: index + 1,
-            name: grocer.dba_name
+            name: grocer.dba_name,
+            address: grocer.location.human_address,
+            street_number: grocer.street_number,
+            street_name: grocer.street_name,
+            city: grocer.city,
+            county: grocer.county,
+            state: grocer.state
           }
         }))
     }
@@ -165,7 +188,13 @@ router.get('/Queens', async (req, res, next) => {
           },
           properties: {
             id: index + 1,
-            name: grocer.dba_name
+            name: grocer.dba_name,
+            address: grocer.location.human_address,
+            street_number: grocer.street_number,
+            street_name: grocer.street_name,
+            city: grocer.city,
+            county: grocer.county,
+            state: grocer.state
           }
         }))
     }
@@ -200,7 +229,13 @@ router.get('/StatenIsland', async (req, res, next) => {
           },
           properties: {
             id: index + 1,
-            name: grocer.dba_name
+            name: grocer.dba_name,
+            address: grocer.location.human_address,
+            street_number: grocer.street_number,
+            street_name: grocer.street_name,
+            city: grocer.city,
+            county: grocer.county,
+            state: grocer.state
           }
         }))
     }

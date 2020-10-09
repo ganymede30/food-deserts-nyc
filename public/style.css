@@ -1,4 +1,4 @@
-body {
+/* body {
   font-family: sans-serif;
 }
 
@@ -7,7 +7,8 @@ a {
 }
 
 label {
-  display: block;
+  display: inline-block;
+  width: 100px;
 }
 
 nav a {
@@ -24,33 +25,76 @@ form div {
   position: absolute;
 }
 
-/* .mapContainer {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-} */
 
-/* .sidebar {
+
+.sidebar {
   position: absolute;
   top: 0;
   right: 0;
-  width:200px;
-  max-width: 360px;
+  max-width: 320px;
   background: #fff;
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  padding: 14px 28px;
-  margin: 25px;
+  padding: 12px 24px;
+  margin: 20px;
   font-size: 13px;
   line-height: 2;
   color: #6b6b76;
   outline: none;
   text-transform: uppercase;
-  opacity: 0.8;
 } */
 
+.mapContainer {
+  position: relative;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
 .sidebar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  max-width: 320px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  padding: 12px 24px;
+  margin: 20px;
+  font-size: 13px;
+  line-height: 2;
+  color: #6b6b76;
+  outline: none;
+  text-transform: uppercase;
+}
+
+.tooltip {
+  position: absolute;
+  margin: 16px;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  max-width: 300px;
+  font-size: 20px;
+  z-index: 9;
+  pointer-events: none;
+}
+
+.navStyle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 50px;
+  padding: 10px;
+}
+
+.geolocateStyle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 50px;
+  padding: 10px;
+}
+/* .sidebar {
   display: inline-block;
   position: right;
   top: 0;
@@ -61,4 +105,4 @@ form div {
   z-index: 1 !important;
   padding: 6px;
   font-weight: bold;
-}
+} */

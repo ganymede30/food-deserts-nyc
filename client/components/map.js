@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef, useCallback} from 'react'
 import MapGL, {
   Source,
   Layer,
+  Popup,
   GeolocateControl,
   NavigationControl
 } from 'react-map-gl'
@@ -36,6 +37,10 @@ const Map = () => {
     latitude: viewport.latitude,
     longitude: viewport.longitude
   })
+  const [popUpInfo, setPopUpInfo] = useState(null)
+  const [data, setData] = useState(null)
+  const [hoveredFeature, setHoveredFeature] = useState(null)
+  const [offset, setOffset] = useState({x: null, y: null})
   const [grocers, setGrocers] = useState(null)
   const [profile, setProfile] = useState('walking')
   const [minutes, setMinutes] = useState(10)
@@ -46,18 +51,6 @@ const Map = () => {
     'Queens',
     'StatenIsland'
   ])
-  const [isoData, setIsoData] = useState(
-    urlBase +
-      profile +
-      '/' +
-      isochroneCoordinates.longitude +
-      ',' +
-      isochroneCoordinates.latitude +
-      '?contours_minutes=' +
-      minutes +
-      '&polygons=true&access_token=' +
-      accessToken
-  )
 
   const mapRef = useRef()
 
@@ -67,6 +60,38 @@ const Map = () => {
 
   const _onViewportChange = viewport => {
     setViewport({...viewport})
+  }
+
+  const _onHover = event => {
+    const {features, srcEvent: {offsetX, offsetY}} = event
+    const hoveredFeature =
+      features && features.find(f => f.layer.id === 'grocers')
+
+    setHoveredFeature(hoveredFeature)
+    setOffset({x: offsetX, y: offsetY})
+  }
+
+  const _renderTooltip = () => {
+    return (
+      hoveredFeature && (
+        <div className="tooltip" style={{left: offset.x, top: offset.y}}>
+          <div>Name: {hoveredFeature.properties.name}</div>
+          <div>
+            Address: {hoveredFeature.properties.street_number}{' '}
+            {hoveredFeature.properties.street_name}
+          </div>
+          <div>County: {hoveredFeature.properties.county}</div>
+          <div>State:{hoveredFeature.properties.state}</div>
+        </div>
+      )
+    )
+  }
+
+  const _onIsochroneClick = event => {
+    setIsochroneCoordinates({
+      latitude: event.lngLat[1],
+      longitude: event.lngLat[0]
+    })
   }
 
   const handleViewportChange = useCallback(
@@ -84,16 +109,7 @@ const Map = () => {
     })
   }, [])
 
-  const _onIsochroneClick = event => {
-    setIsochroneCoordinates({
-      latitude: event.lngLat[1],
-      longitude: event.lngLat[0]
-    })
-    console.log(isochroneCoordinates)
-  }
-
   useEffect(() => {
-    console.log('mapRef:', mapRef)
     async function grabData() {
       let geojson = {
         type: 'FeatureCollection',
@@ -104,77 +120,78 @@ const Map = () => {
         geojson.features.push(...fetcher.data.features)
       }
       setGrocers(geojson)
-      // console.log("isoData", isoData)
-      // let isoFetch = await axios.get(isoData)
     }
     grabData()
   }, [])
 
-  useEffect(() => {})
-
   return (
     <div>
-      <div className="sidebar">
-        <label>
-          Maximum Travel Time: {minutes} minutes {profile}{' '}
-        </label>
-        <input
-          name="time"
-          type="range"
-          min={5}
-          max={60}
-          defaultValue={10}
-          onChange={_handleTimeChange}
-          step="1"
-        />
-        <button onClick={() => setProfile('walking')}>Walking</button>
-        <button onClick={() => setProfile('cycling')}>Cycling</button>
-        <button onClick={() => setProfile('driving')}>Driving</button>
-      </div>
-      <MapGL
-        ref={mapRef}
-        {...viewport}
-        mapboxApiAccessToken={accessToken}
-        mapStyle="mapbox://styles/mapbox/streets-v11"
-        onViewportChange={_onViewportChange}
-        onClick={_onIsochroneClick}
-      >
-        {/* <Geocoder
-          mapRef={mapRef}
-          onViewportChange={handleGeocoderViewportChange}
+      <div>
+        <MapGL
+          ref={mapRef}
+          {...viewport}
           mapboxApiAccessToken={accessToken}
-          position="top-right"
-        /> */}
-        <Source id="ny-grocers" type="geojson" data={grocers}>
-          <Layer {...pointStyles} />
-        </Source>
-        <Source
-          id="iso"
-          type="geojson"
-          data={
-            urlBase +
-            profile +
-            '/' +
-            isochroneCoordinates.longitude +
-            ',' +
-            isochroneCoordinates.latitude +
-            '?contours_minutes=' +
-            minutes +
-            '&polygons=true&access_token=' +
-            accessToken
-          }
+          mapStyle="mapbox://styles/mapbox/streets-v11"
+          onViewportChange={_onViewportChange}
+          onClick={_onIsochroneClick}
+          onHover={_onHover}
         >
-          <Layer {...isochroneStyles} />
-        </Source>
-        <GeolocateControl
-          style={geolocateStyle}
-          positionOptions={{enableHighAccuracy: true}}
-          trackUserLocation={true}
-        />
-        <div style={navStyle}>
-          <NavigationControl />
+          <Geocoder
+            mapRef={mapRef}
+            onViewportChange={handleGeocoderViewportChange}
+            mapboxApiAccessToken={accessToken}
+            position="top-right"
+          />
+          <Source id="ny-grocers" type="geojson" data={grocers}>
+            <Layer {...pointStyles} />
+          </Source>
+          <div>{_renderTooltip()}</div>
+          <Source
+            id="iso"
+            type="geojson"
+            data={
+              urlBase +
+              profile +
+              '/' +
+              isochroneCoordinates.longitude +
+              ',' +
+              isochroneCoordinates.latitude +
+              '?contours_minutes=' +
+              minutes +
+              '&polygons=true&access_token=' +
+              accessToken
+            }
+          >
+            <Layer {...isochroneStyles} />
+          </Source>
+          <div className="geolocateStyle">
+            <GeolocateControl
+              positionOptions={{enableHighAccuracy: true}}
+              trackUserLocation={true}
+            />
+          </div>
+          <div className="navStyle">
+            <NavigationControl />
+          </div>
+        </MapGL>
+        <div className="sidebar">
+          <label>
+            Maximum Travel Time: {minutes} minutes {profile}{' '}
+          </label>
+          <input
+            name="time"
+            type="range"
+            min={5}
+            max={60}
+            defaultValue={10}
+            onChange={_handleTimeChange}
+            step="1"
+          />
+          <button onClick={() => setProfile('walking')}>Walking</button>
+          <button onClick={() => setProfile('cycling')}>Cycling</button>
+          <button onClick={() => setProfile('driving')}>Driving</button>
         </div>
-      </MapGL>
+      </div>
     </div>
   )
 }

@@ -25,7 +25,8 @@ export const pointStyles = {
     'circle-radius': 3,
     'circle-color': 'green'
   },
-  filter: ['==', '$type', 'Point']
+  filter: ['==', '$type', 'Point'],
+  interactive: 'true'
 }
 
 export const isochroneStyles = {
@@ -37,12 +38,6 @@ export const isochroneStyles = {
     'fill-color': '#5a3fc0',
     'fill-opacity': 0.3
   }
-}
-
-export const geolocateStyle = {
-  float: 'right',
-  margin: '50px',
-  padding: '10px'
 }
 
 export const fullscreenControlStyle = {
