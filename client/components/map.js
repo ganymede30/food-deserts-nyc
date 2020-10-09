@@ -25,7 +25,7 @@ const urlBase = 'https://api.mapbox.com/isochrone/v1/mapbox/'
 const Map = () => {
   const [viewport, setViewport] = useState({
     width: '100vw',
-    height: 'calc(100vh - 80px)',
+    height: '80vh',
     position: 'absolute',
     latitude: 40.837222,
     longitude: -73.886111,
@@ -37,7 +37,6 @@ const Map = () => {
     latitude: viewport.latitude,
     longitude: viewport.longitude
   })
-  const [popUpInfo, setPopUpInfo] = useState(null)
   const [data, setData] = useState(null)
   const [hoveredFeature, setHoveredFeature] = useState(null)
   const [offset, setOffset] = useState({x: null, y: null})
@@ -53,6 +52,8 @@ const Map = () => {
   ])
 
   const mapRef = useRef()
+  const geocoderContainerRef = useRef()
+  const sidebarContainerRef = useRef()
 
   const _handleTimeChange = event => {
     setMinutes(event.target.value)
@@ -66,7 +67,6 @@ const Map = () => {
     const {features, srcEvent: {offsetX, offsetY}} = event
     const hoveredFeature =
       features && features.find(f => f.layer.id === 'grocers')
-
     setHoveredFeature(hoveredFeature)
     setOffset({x: offsetX, y: offsetY})
   }
@@ -99,7 +99,6 @@ const Map = () => {
     []
   )
 
-  // if you are happy with Geocoder default settings, you can just use handleViewportChange directly
   const handleGeocoderViewportChange = useCallback(newViewport => {
     const geocoderDefaultOverrides = {transitionDuration: 1000}
     console.log(newViewport)
@@ -127,69 +126,80 @@ const Map = () => {
   return (
     <div>
       <div>
-        <MapGL
-          ref={mapRef}
-          {...viewport}
-          mapboxApiAccessToken={accessToken}
-          mapStyle="mapbox://styles/mapbox/streets-v11"
-          onViewportChange={_onViewportChange}
-          onClick={_onIsochroneClick}
-          onHover={_onHover}
-        >
-          <Geocoder
-            mapRef={mapRef}
-            onViewportChange={handleGeocoderViewportChange}
+        <div className="mapContainer">
+          <div
+            ref={geocoderContainerRef}
+            style={{position: 'absolute', top: 20, left: 20, zIndex: 1}}
+          />
+          <MapGL
+            ref={mapRef}
+            // style={{height: '100%', position: 'relative'}}
+            {...viewport}
             mapboxApiAccessToken={accessToken}
-            position="top-right"
-          />
-          <Source id="ny-grocers" type="geojson" data={grocers}>
-            <Layer {...pointStyles} />
-          </Source>
-          <div>{_renderTooltip()}</div>
-          <Source
-            id="iso"
-            type="geojson"
-            data={
-              urlBase +
-              profile +
-              '/' +
-              isochroneCoordinates.longitude +
-              ',' +
-              isochroneCoordinates.latitude +
-              '?contours_minutes=' +
-              minutes +
-              '&polygons=true&access_token=' +
-              accessToken
-            }
+            mapStyle="mapbox://styles/mapbox/streets-v11"
+            onViewportChange={_onViewportChange}
+            onClick={_onIsochroneClick}
+            onHover={_onHover}
           >
-            <Layer {...isochroneStyles} />
-          </Source>
-          <div className="geolocateStyle">
-            <GeolocateControl
-              positionOptions={{enableHighAccuracy: true}}
-              trackUserLocation={true}
+            <Source id="ny-grocers" type="geojson" data={grocers}>
+              <Layer {...pointStyles} />
+            </Source>
+            <div>{_renderTooltip()}</div>
+            <Source
+              id="iso"
+              type="geojson"
+              data={
+                urlBase +
+                profile +
+                '/' +
+                isochroneCoordinates.longitude +
+                ',' +
+                isochroneCoordinates.latitude +
+                '?contours_minutes=' +
+                minutes +
+                '&polygons=true&access_token=' +
+                accessToken
+              }
+            >
+              <Layer {...isochroneStyles} />
+            </Source>
+            <Geocoder
+              mapRef={mapRef}
+              containerRef={geocoderContainerRef}
+              onViewportChange={handleGeocoderViewportChange}
+              mapboxApiAccessToken={accessToken}
+              style={{display: 'none'}}
+              position="top-left"
             />
+            {/* <div className="geolocateStyle">
+              <GeolocateControl
+                position="top-right"
+                positionOptions={{enableHighAccuracy: true}}
+                trackUserLocation={true}
+              />
+            </div> */}
+            <div className="navStyle">
+              <NavigationControl />
+            </div>
+          </MapGL>
+          <div className="sidebar" ref={sidebarContainerRef}>
+            <label>
+              {' '}
+              Maximum Travel Time: {minutes} minutes {profile}{' '}
+            </label>
+            <input
+              name="time"
+              type="range"
+              min={5}
+              max={60}
+              defaultValue={10}
+              onChange={_handleTimeChange}
+              step="1"
+            />
+            <button onClick={() => setProfile('walking')}>Walking</button>
+            <button onClick={() => setProfile('cycling')}>Cycling</button>
+            <button onClick={() => setProfile('driving')}>Driving</button>
           </div>
-          <div className="navStyle">
-            <NavigationControl />
-          </div>
-        </MapGL>
-        <div className="sidebar">
-          <label>
-            Maximum Travel Time: {minutes} minutes {profile}{' '}
-          </label>
-          <input
-            name="time"
-            type="range"
-            min={5}
-            max={60}
-            defaultValue={10}
-            onChange={_handleTimeChange}
-            step="1"
-          />
-          <button onClick={() => setProfile('walking')}>Walking</button>
-          <button onClick={() => setProfile('cycling')}>Cycling</button>
-          <button onClick={() => setProfile('driving')}>Driving</button>
         </div>
       </div>
     </div>

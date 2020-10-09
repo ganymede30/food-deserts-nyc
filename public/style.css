@@ -51,6 +51,10 @@ form div {
   bottom: 0;
 }
 
+.react-switch-label:active .react-switch-button {
+  width: 60px;
+}
+
 .sidebar {
   position: absolute;
   top: 0;
