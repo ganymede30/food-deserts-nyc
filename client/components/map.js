@@ -129,7 +129,8 @@ const Map = () => {
         <div className="mapContainer">
           <div
             ref={geocoderContainerRef}
-            style={{position: 'absolute', top: 20, left: 20, zIndex: 1}}
+            // style={{position: 'absolute', top: 20, left: 20, zIndex: 1}}
+            className="geocoderContainer"
           />
           <MapGL
             ref={mapRef}
