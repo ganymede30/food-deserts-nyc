@@ -47,6 +47,10 @@ Stefan Luc Gouyet's "bike-isochrones-react" was an immense help in implementing 
 * https://github.com/stefangouyet/bike-isochrones-react
 * https://blog.usejournal.com/visualizing-cycling-routes-with-mapbox-isochrones-api-3a16c7393aaa
 
+The modal window shown when map loads was provided by Digital Ocean
+
+* https://www.digitalocean.com/community/tutorials/react-modal-component
+
 Grocery store data is collected from the NY Department of Agriculture and Markets
 
 * https://data.ny.gov/Economic-Development/Retail-Food-Stores/9a8c-vfzj

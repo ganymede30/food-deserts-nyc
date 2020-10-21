@@ -1,20 +1,7 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react'
-import MapGL, {
-  Source,
-  Layer,
-  Popup,
-  GeolocateControl,
-  NavigationControl
-} from 'react-map-gl'
+import MapGL, {Source, Layer, NavigationControl} from 'react-map-gl'
 import Geocoder from 'react-map-gl-geocoder'
-import {
-  mapStyles,
-  pointStyles,
-  sidebarStyle,
-  isochroneStyles,
-  geolocateStyle,
-  navStyle
-} from '../styles/mapStyles'
+import {pointStyles, isochroneStyles} from '../styles/mapStyles'
 import axios from 'axios'
 
 const accessToken =
@@ -32,12 +19,10 @@ const Map = () => {
     zoom: 12,
     minZoom: 2
   })
-  const [searchResultLayer, setSearchResultLayer] = useState(null)
   const [isochroneCoordinates, setIsochroneCoordinates] = useState({
     latitude: viewport.latitude,
     longitude: viewport.longitude
   })
-  const [data, setData] = useState(null)
   const [hoveredFeature, setHoveredFeature] = useState(null)
   const [offset, setOffset] = useState({x: null, y: null})
   const [grocers, setGrocers] = useState(null)
@@ -101,7 +86,6 @@ const Map = () => {
 
   const handleGeocoderViewportChange = useCallback(newViewport => {
     const geocoderDefaultOverrides = {transitionDuration: 1000}
-    console.log(newViewport)
     return handleViewportChange({
       ...newViewport,
       ...geocoderDefaultOverrides
@@ -127,14 +111,9 @@ const Map = () => {
     <div>
       <div>
         <div className="mapContainer">
-          <div
-            ref={geocoderContainerRef}
-            // style={{position: 'absolute', top: 20, left: 20, zIndex: 1}}
-            className="geocoderContainer"
-          />
+          <div ref={geocoderContainerRef} className="geocoderContainer" />
           <MapGL
             ref={mapRef}
-            // style={{height: '100%', position: 'relative'}}
             {...viewport}
             mapboxApiAccessToken={accessToken}
             mapStyle="mapbox://styles/mapbox/streets-v11"
@@ -172,13 +151,6 @@ const Map = () => {
               style={{display: 'none'}}
               position="top-left"
             />
-            {/* <div className="geolocateStyle">
-              <GeolocateControl
-                position="top-right"
-                positionOptions={{enableHighAccuracy: true}}
-                trackUserLocation={true}
-              />
-            </div> */}
             <div className="navStyle">
               <NavigationControl />
             </div>
