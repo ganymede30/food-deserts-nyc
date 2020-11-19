@@ -7,7 +7,8 @@ import {
   Box,
   IconButton
 } from '@material-ui/core'
-import {Brightness4, Brightness7} from '@material-ui/icons'
+import HelpOutlinedIcon from '@material-ui/icons/HelpOutlined'
+import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
@@ -37,12 +38,6 @@ const Navbar = ({handleClick, isLoggedIn}) => {
   }
 
   return (
-    // <div className="navBar">
-    //   <h1>New York City Food Availability</h1>
-    //   <Modal show={modal.show} handleClose={hideModal}/>
-    //   <button type="button" onClick={showModal}>Open Modal</button>
-    // </div>
-
     <Box component="nav">
       <AppBar position="static" className="navBar">
         <Grid className="gridContainer" container>
@@ -54,26 +49,18 @@ const Navbar = ({handleClick, isLoggedIn}) => {
             </Button>
           </Grid>
           <Grid item>
-            <Button href="/">
-              <Typography className="buttonText">Map</Typography>
-            </Button>
-            <Modal show={modal.show} handleClose={flipModal} className="modal">
-              <p>
-                The green points on the map represent grocery stores and the
-                opaque polygon is an isochrone representing the travel distance
-                from the center of the polygon. You can click anywhere on the
-                map to recenter the polygon. The slider below adjusts your
-                travel time and the buttons adjust your form of transportation.
-                Enjoy!
-              </p>
-            </Modal>
+            <Modal
+              show={modal.show}
+              handleClose={flipModal}
+              className="modal"
+            />
             <IconButton
               className="buttonText"
               title="Toggle light/dark theme"
               aria-label="Toggle light/dark theme"
               onClick={() => flipModal()}
             >
-              {modal.show ? <Brightness7 /> : <Brightness4 />}
+              {modal.show ? <HelpOutlinedIcon /> : <HelpOutlineOutlinedIcon />}
             </IconButton>
           </Grid>
         </Grid>
