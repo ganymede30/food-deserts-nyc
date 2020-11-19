@@ -12,7 +12,7 @@ const urlBase = 'https://api.mapbox.com/isochrone/v1/mapbox/'
 const Map = () => {
   const [viewport, setViewport] = useState({
     width: '100vw',
-    height: '80vh',
+    height: '100vh',
     position: 'absolute',
     latitude: 40.837222,
     longitude: -73.886111,
