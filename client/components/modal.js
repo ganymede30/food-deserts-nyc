@@ -1,5 +1,4 @@
 import React from 'react'
-// import IsochroneClick from "../../public/IsochroneClick.gif"
 
 const Modal = ({handleClose, show, children}) => {
   const showHideClassName = show ? 'modal display-block' : 'modal display-none'
@@ -14,7 +13,7 @@ const Modal = ({handleClose, show, children}) => {
         </button>
         <h1 style={{textAlignVertical: 'center', textAlign: 'center'}}>
           {' '}
-          Welcome to New York City Grocer Isochrones
+          Welcome to New York City Food Availablity
         </h1>
         <p>
           This application shows the user's proximity to grocery stores in New
