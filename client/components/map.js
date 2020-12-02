@@ -102,6 +102,8 @@ const Map = () => {
         let fetcher = await axios.get(`/api/grocers/${buroughs[i]}`)
         geojson.features.push(...fetcher.data.features)
       }
+      // let fetcher = await axios.get(`/api/grocers/Queens`)
+      // geojson.features.push(...fetcher.data.features)
       setGrocers(geojson)
     }
     grabData()

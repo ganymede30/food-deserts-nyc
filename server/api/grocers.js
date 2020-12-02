@@ -1,5 +1,7 @@
 const router = require('express').Router()
 const axios = require('axios')
+// const Geocodio = require('geocodio-library-node');
+// const geocoder = new Geocodio('db9d5b9cc49999f54dbd9d5e89e89fdec8dfe4c');
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -168,6 +170,18 @@ router.get('/Queens', async (req, res, next) => {
   try {
     const queryStr = 'https://data.ny.gov/resource/9a8c-vfzj.json?county=Queens'
     const {data} = await axios.get(queryStr)
+
+    // const addresses = data.map(x => `${x.street_number} ${x.street_name}, ${x.city} ${x.state}`)
+    // console.log(addresses)
+    // geocoder.geocode(addresses)
+    //   .then(response => {
+    //     console.log(`${response.results.location.lat}, ${response.results.location.lng}`);
+    //   })
+    //   .catch(err => {
+    //     console.error(err);
+    //   }
+    // );
+
     const grocers = {
       type: 'FeatureCollection',
       features: data
