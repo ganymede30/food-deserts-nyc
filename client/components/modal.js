@@ -31,10 +31,6 @@ const Modal = ({handleClose, show, children}) => {
           store data is only displayed in New York City, but the isochrones work
           anywhere in the world!
         </p>
-        <h1 style={{textAlignVertical: 'center', textAlign: 'center'}}>
-          {' '}
-          Enjoy!{' '}
-        </h1>
       </section>
     </div>
   )
