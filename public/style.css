@@ -270,7 +270,7 @@ body {
 .mapboxgl-ctrl-geocoder--icon {
   display: inline-block;
   vertical-align: middle;
-  speak: none;
+  /* speak: none; */
   fill: #757575;
   top: 15px;
 }

@@ -4,46 +4,46 @@ const axios = require('axios')
 // const geocoder = new Geocodio('db9d5b9cc49999f54dbd9d5e89e89fdec8dfe4c');
 module.exports = router
 
-router.get('/', async (req, res, next) => {
-  try {
-    const queryStr =
-      'https://data.ny.gov/resource/9a8c-vfzj.json?$where=(county=%27Bronx%27%20OR%20county=%27Queens%27%20OR%20county=%27Kings%27%20OR%20county=%27Richmond%27%20OR%20county=%27New%20York%27)'
-    const {data} = await axios.get(queryStr)
-    const grocers = {
-      type: 'FeatureCollection',
-      features: data
-        .filter(
-          grocer =>
-            grocer.location !== undefined &&
-            grocer.location.latitude !== undefined &&
-            grocer.location.longitude !== undefined
-        )
-        .map((grocer, index) => ({
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [
-              parseFloat(grocer.location.longitude),
-              parseFloat(grocer.location.latitude)
-            ]
-          },
-          properties: {
-            id: index + 1,
-            name: grocer.dba_name,
-            address: grocer.location.human_address,
-            street_number: grocer.street_number,
-            street_name: grocer.street_name,
-            city: grocer.city,
-            county: grocer.county,
-            state: grocer.state
-          }
-        }))
-    }
-    res.json(grocers)
-  } catch (error) {
-    next(error)
-  }
-})
+// router.get('/', async (req, res, next) => {
+//   try {
+//     const queryStr =
+//       'https://data.ny.gov/resource/9a8c-vfzj.json?$where=(county=%27Bronx%27%20OR%20county=%27Queens%27%20OR%20county=%27Kings%27%20OR%20county=%27Richmond%27%20OR%20county=%27New%20York%27)'
+//     const {data} = await axios.get(queryStr)
+//     const grocers = {
+//       type: 'FeatureCollection',
+//       features: data
+//         .filter(
+//           grocer =>
+//             grocer.location !== undefined &&
+//             grocer.location.latitude !== undefined &&
+//             grocer.location.longitude !== undefined
+//         )
+//         .map((grocer, index) => ({
+//           type: 'Feature',
+//           geometry: {
+//             type: 'Point',
+//             coordinates: [
+//               parseFloat(grocer.location.longitude),
+//               parseFloat(grocer.location.latitude)
+//             ]
+//           },
+//           properties: {
+//             id: index + 1,
+//             name: grocer.dba_name,
+//             address: grocer.location.human_address,
+//             street_number: grocer.street_number,
+//             street_name: grocer.street_name,
+//             city: grocer.city,
+//             county: grocer.county,
+//             state: grocer.state
+//           }
+//         }))
+//     }
+//     res.json(grocers)
+//   } catch (error) {
+//     next(error)
+//   }
+// })
 
 router.get('/Bronx', async (req, res, next) => {
   try {
