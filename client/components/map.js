@@ -94,17 +94,22 @@ const Map = () => {
 
   useEffect(() => {
     async function grabData() {
-      let geojson = {
-        type: 'FeatureCollection',
-        features: []
+      try {
+        let geojson = {
+          type: 'FeatureCollection',
+          features: []
+        }
+        for (let i = 0; i < buroughs.length; i++) {
+          let fetcher = await axios.get(`/api/grocers/${buroughs[i]}`)
+          geojson.features.push(...fetcher.data.features)
+        }
+        // let fetcher = await axios.get(`/api/grocers/Queens`)
+        // geojson.features.push(...fetcher.data.features)
+        setGrocers(geojson)
+      } catch (error) {
+        console.log(error.message)
+        next(error)
       }
-      for (let i = 0; i < buroughs.length; i++) {
-        let fetcher = await axios.get(`/api/grocers/${buroughs[i]}`)
-        geojson.features.push(...fetcher.data.features)
-      }
-      // let fetcher = await axios.get(`/api/grocers/Queens`)
-      // geojson.features.push(...fetcher.data.features)
-      setGrocers(geojson)
     }
     grabData()
   }, [])
